@@ -11,15 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by User on 29.04.2016.
  */
-public class CommandLogin {
+public class CommandLogin implements Command {
 
+    @Override
     public String execute(HttpServletRequest request) {
         String nick = request.getParameter("nick");
-        System.out.println(nick);
         UserDAO user = DAOFactory.getInstance().getUserDAO();
-        user.getClass();
         user.login(new User(nick));
-        String page = "chat.jsp";
+        String page = "/jsp/chat.jsp";
         return page;
     }
 

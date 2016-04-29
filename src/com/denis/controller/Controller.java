@@ -1,6 +1,7 @@
 package com.denis.controller;
 
 import com.denis.command.CommandLogin;
+import com.denis.command.CommandLogout;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * Created by denis on 28.04.16.
@@ -28,12 +28,11 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*response.setContentType("text/html");
-        PrintWriter pw = response.getWriter();*//*
-        pw.println("we are in servlet");*/
-        String page = new CommandLogin().execute(request);
+
+        String page = new CommandLogout().execute(request);
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
         dispatcher.forward(request, response);
+        response.sendRedirect(page);
     }
 }
 
