@@ -23,10 +23,10 @@ public class Test {
     private static ResultSet rs;
 
     public static void main(String[] args) {
-        //MySQLDAOFactory factory = (MySQLDAOFactory)DAOFactory.getInstance();
-        //factory.getMessageDAO().addMessage(new Message(new User("me", Status.LOGIN, Role.USER), "Hello", new Date()));
+        /*MySQLDAOFactory factory = (MySQLDAOFactory)DAOFactory.getInstance();
+        factory.getMessageDAO().addMessage(new Message(new User("tt"),"Hello2!"));*/
         //String query = "GRANT ALL PRIVILEGES ON *.* TO 'denis'@'%'";
-       // String query = "SHOW GRANTS FOR 'root'@'testserver'";
+        // String query = "SHOW GRANTS FOR 'root'@'testserver'";
         //String query = "SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'dvasin' AND TABLE_NAME = 'Message';";
         String query =
                 "select * from User";
@@ -45,20 +45,26 @@ public class Test {
                 String count1 = rs.getString(1);
                 String count2 = rs.getString(2);
                 //Date count3 = rs.getTimestamp(3);
-                //String count4 = rs.getString(4);
-                System.out.println(count1 + " | " + count2 /*+ " | " + count3 + " | " + count4*/);
+                String count4 = rs.getString(3);
+                System.out.println(count1 + " | " + count2 + /*" | " + count3 + */" | " + count4);
             }
 
         } catch (SQLException sqlEx) {
             sqlEx.printStackTrace();
         } finally {
             //close connection ,stmt and resultset here
-            try { con.close(); } catch(SQLException se) { /*can't do anything */ }
-            try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
-           // try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
-        }
-    }
+            try {
+                con.close();
+            } catch (SQLException se) {
+                 }
+                try {
+                    stmt.close();
+                } catch (SQLException se) {
+                     }
+                    // try { rs.close(); } catch(SQLException se) { can't do anything  }
+                }
+            }
 
-    }
+}
 
 

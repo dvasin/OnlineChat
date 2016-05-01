@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -20,6 +22,7 @@ public class MySQLUserDAO implements UserDAO {
     private static String EXIST_USER_SET_STATUS_LOGOUT = "UPDATE User SET Status = 'logout' WHERE NICK = ?";
     private static String EXIST_USER_SET_STATUS_KICK = "UPDATE User SET Status = 'kick' WHERE NICK = ?";
     private static String GET_ALL_USERS = "SELECT NICK FROM User";
+    private static String GET_ALL_LOGGEDIN_USERS = "SELECT * FROM User WHERE status = 'login'";
     private static String EXIST_USER_GET_STATUS = "SELECT status from User where nick = ?";
     private static String EXIST_USER_GET_ROLE = "SELECT role from User where nick = ?";
     private static String CREATE_NEW_USER = "INSERT INTO User VALUES(?, ?, ?)";
@@ -178,5 +181,36 @@ public class MySQLUserDAO implements UserDAO {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<User> getLoggedinUsers() {
+        List<User> loggedUsers = new ArrayList<>();
+        Connection c = connectionPool.getConnection();
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = c.prepareStatement(GET_ALL_LOGGEDIN_USERS);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                String nick = rs.getString("nick");
+                Role role = Role.valueOf(rs.getString("role").toUpperCase());
+                Status status = Status.valueOf(rs.getString("status").toUpperCase());
+                loggedUsers.add(new User(nick, status, role));
+            }
+            return loggedUsers;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                st.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            connectionPool.freeConnection(c);
+        }
+        List<User> errorList = new ArrayList<>();
+        errorList.add(new User("Error"));
+        return errorList;
     }
 }

@@ -8,6 +8,10 @@ public class User {
     private Status status;
     private Role role;
 
+    public User() {
+        super();
+    }
+
     public User(String nick, Status status, Role role) {
         this.nick = nick;
         this.status = status;

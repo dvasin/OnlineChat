@@ -11,6 +11,10 @@ public class Message {
     private String text;
     private Date timestamp;
 
+    public Message() {
+        super();
+    }
+
     public Message(User user, String text) {
         this.user = user;
         this.text = text;

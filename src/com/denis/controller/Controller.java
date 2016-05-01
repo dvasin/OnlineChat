@@ -1,7 +1,6 @@
 package com.denis.controller;
 
-import com.denis.command.CommandLogin;
-import com.denis.command.CommandLogout;
+import com.denis.command.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,11 +27,21 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String page = new CommandLogout().execute(request);
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-        dispatcher.forward(request, response);
-        response.sendRedirect(page);
+        if(request.getParameter("command").equals("logout")) {
+            String page = new CommandLogout().execute(request);
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+            dispatcher.forward(request, response);
+        } else if(request.getParameter("command").equals("login")) {
+            String page = new CommandLogin().execute(request);
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+            dispatcher.forward(request, response);
+        } else if(request.getParameter("command").equals("sendMessageAndRefresh")) {
+            new CommandSendMessage().execute(request);
+            new CommandGetLoggedUsers().execute(request);
+            String page = new CommandGetLastMessages().execute(request);
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+            dispatcher.forward(request, response);
+        }
     }
 }
 

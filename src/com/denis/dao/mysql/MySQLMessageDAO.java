@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -31,11 +32,17 @@ public class MySQLMessageDAO implements MessageDAO {
             st = c.prepareStatement(INS_MESSAGE);
             st.setString(1, message.getUser().getNick());
             st.setString(2, message.getText());
-            st.setString(3, new Date().toString());
             st.executeUpdate();
-            connectionPool.freeConnection(c);
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            connectionPool.freeConnection(c);
+            try {
+                st.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -59,6 +66,7 @@ public class MySQLMessageDAO implements MessageDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        Collections.reverse(lastMessages);
         return lastMessages;
     }
 }
