@@ -49,14 +49,20 @@
 	<div class="block3" style="
     border-top-width: 0px;">
 		<form name="sendMessageForm" method="POST" action="chat">
-            <input type="hidden" name="command" value="sendMessageAndRefresh" />
+            <input type="hidden" name="command" value="sendmessage" />
       		<p><textarea name="message" style="margin: 0px; width: 580px; height: 56px;"></textarea></p>
       		<p><input type="submit" value="SEND"></p>
      </form>
 	</div>
 </div>
 <div>
-    <form name="loginForm" method="POST" action="chat">
+    <form name="logoutRefreshForm" method="POST" action="chat">
+        <input type="hidden" name="command" value="getlastmessages" />
+        <p><input type="submit" value="refresh"></p>
+    </form>
+</div>
+<div>
+    <form name="logoutButtonForm" method="POST" action="chat">
         <input type="hidden" name="command" value="logout" />
         <p><input type="submit" value="Log out"></p>
     </form>

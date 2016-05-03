@@ -27,7 +27,16 @@ public class Controller extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(request.getParameter("command").equals("logout")) {
+
+        String page = null;
+        CommandFactory factory = new CommandFactory();
+        Command command = factory.defineCommand(request);
+        page = command.execute(request);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+        dispatcher.forward(request, response);
+
+
+        /*if(request.getParameter("command").equals("logout")) {
             String page = new CommandLogout().execute(request);
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);
@@ -37,11 +46,11 @@ public class Controller extends HttpServlet {
             dispatcher.forward(request, response);
         } else if(request.getParameter("command").equals("sendMessageAndRefresh")) {
             new CommandSendMessage().execute(request);
-            new CommandGetLoggedUsers().execute(request);
+            new CommandGetLoggedInUsers().execute(request);
             String page = new CommandGetLastMessages().execute(request);
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);
-        }
+        }*/
     }
 }
 
